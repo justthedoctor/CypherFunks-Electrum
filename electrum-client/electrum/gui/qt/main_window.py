@@ -2749,7 +2749,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
                 label = IconLabel(text='Enabled, non-recoverable channels')
                 label.setIcon(read_QIcon('nocloud'))
                 grid.addWidget(label, 5, 1)
-                if self.wallet.db.get('seed_type') == 'segwit':
+                if self.wallet.db.get('seed_type') == 'standard':
                     msg = _("Your channels cannot be recovered from seed, because they were created with an old version of Electrum. "
                             "This means that you must save a backup of your wallet everytime you create a new channel.\n\n"
                             "If you want this wallet to have recoverable channels, you must close your existing channels and restore this wallet from seed")

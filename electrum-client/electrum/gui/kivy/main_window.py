@@ -657,7 +657,7 @@ class ElectrumWindow(App, Logger):
             util.register_callback(self.on_channel_db, ['channel_db'])
             util.register_callback(self.set_num_peers, ['gossip_peers'])
             util.register_callback(self.set_unknown_channels, ['unknown_channels'])
-        
+
         if self.network and self.electrum_config.get('auto_connect') is None:
             self.popup_dialog("first_screen")
             # load_wallet_on_start will be called later, after initial network setup is completed
@@ -1472,7 +1472,7 @@ class ElectrumWindow(App, Logger):
             if self.wallet.lnworker.has_deterministic_node_id():
                 pass
             else:
-                if self.wallet.db.get('seed_type') == 'segwit':
+                if self.wallet.db.get('seed_type') == 'standard':
                     msg = _("Your channels cannot be recovered from seed, because they were created with an old version of Electrum. "
                             "This means that you must save a backup of your wallet everytime you create a new channel.\n\n"
                             "If you want this wallet to have recoverable channels, you must close your existing channels and restore this wallet from seed")

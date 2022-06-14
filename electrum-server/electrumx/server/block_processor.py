@@ -445,7 +445,8 @@ class BlockProcessor:
 
             # Spend the inputs
             for txin in tx.inputs:
-                if txin.is_generation():
+                #print("Block Hash: ",tx_hash)
+                if txin.is_generation() or tx_hash == b'\x0f\x10\x97\xf4\xd4g!\x1b\xe3\xbf>:\x9e\x05\xf3\x9c"r\x14>\xd3\x04e\xb8RW\x1a\xb3\xbb\xb1\xfdC':
                     continue
                 cache_value = spend_utxo(txin.prev_hash, txin.prev_idx)
                 undo_info_append(cache_value)
@@ -635,6 +636,7 @@ class BlockProcessor:
 
             # Key: b'u' + address_hashX + tx_idx + tx_num
             # Value: the UTXO value as a 64-bit unsigned integer
+
             udb_key = b'u' + hashX + hdb_key[-4-TXNUM_LEN:]
             utxo_value_packed = self.db.utxo_db.get(udb_key)
             if utxo_value_packed:

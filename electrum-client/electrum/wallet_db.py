@@ -344,7 +344,7 @@ class WalletDB(JsonDB):
     def _convert_version_15(self):
         if not self._is_upgrade_method_needed(14, 14):
             return
-        if self.get('seed_type') == 'segwit':
+        if self.get('seed_type') == 'standard':
             # should not get here; get_seed_version should have caught this
             raise Exception('unsupported derivation (development segwit, v14)')
         self.put('seed_version', 15)
@@ -803,7 +803,7 @@ class WalletDB(JsonDB):
                 if xpub[0:4] in ('xpub', 'tpub'):
                     seed_type = 'standard'
                 elif xpub[0:4] in ('zpub', 'Zpub', 'vpub', 'Vpub'):
-                    seed_type = 'segwit'
+                    seed_type = 'standard'
             elif ks.get('type') == 'old':
                 seed_type = 'old'
             if seed_type is not None:
