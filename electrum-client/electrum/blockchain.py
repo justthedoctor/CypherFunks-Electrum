@@ -630,8 +630,10 @@ class Blockchain(Logger):
             target = self.get_target(height // 2016 - 1)
         except MissingHeader:
             return False
-        try:
-            self.verify_header(header, prev_hash, target)
+
+            #Temp Change For Funk
+        #try:
+        #    self.verify_header(header, prev_hash, target)
         except BaseException as e:
             return False
         return True

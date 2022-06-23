@@ -57,7 +57,7 @@ from .util import (MessageBoxMixin, read_QIcon, Buttons, icon_path,
 
 from .fee_slider import FeeSlider, FeeComboBox
 from .confirm_tx_dialog import TxEditor
-from .amountedit import FeerateEdit, BTCAmountEdit
+from .amountedit import FeerateEdit, FUNKAmountEdit
 from .locktimeedit import LockTimeEdit
 
 if TYPE_CHECKING:
@@ -820,7 +820,7 @@ class PreviewTxDialog(BaseTxDialog, TxEditor):
         self.feerate_e.textEdited.connect(partial(self.on_fee_or_feerate, self.feerate_e, False))
         self.feerate_e.editingFinished.connect(partial(self.on_fee_or_feerate, self.feerate_e, True))
 
-        self.fee_e = BTCAmountEdit(self.main_window.get_decimal_point)
+        self.fee_e = FUNKAmountEdit(self.main_window.get_decimal_point)
         self.fee_e.textEdited.connect(partial(self.on_fee_or_feerate, self.fee_e, False))
         self.fee_e.editingFinished.connect(partial(self.on_fee_or_feerate, self.fee_e, True))
 

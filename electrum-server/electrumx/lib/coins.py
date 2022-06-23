@@ -175,7 +175,7 @@ class Coin:
     @staticmethod
     def lookup_xverbytes(verbytes):
         '''Return a (is_xpub, coin_class) pair given xpub/xprv verbytes.'''
-        # Order means BTC testnet will override NMC testnet
+        # Order means FUNK testnet will override NMC testnet
         for coin in util.subclasses(Coin):
             if verbytes == coin.XPUB_VERBYTES:
                 return True, coin
@@ -267,7 +267,7 @@ class Coin:
         '''Return the number of standard coin units as a Decimal given a
         quantity of smallest units.
 
-        For example 1 BTC is returned for 100 million satoshis.
+        For example 1 FUNK is returned for 100 million satoshis.
         '''
         return Decimal(value) / cls.VALUE_PER_COIN
 
@@ -350,7 +350,7 @@ class KomodoMixin:
 
 
 class BitcoinMixin:
-    SHORTNAME = "BTC"
+    SHORTNAME = "FUNK"
     NET = "mainnet"
     XPUB_VERBYTES = bytes.fromhex("0488b21e")
     XPRV_VERBYTES = bytes.fromhex("0488ade4")
@@ -640,7 +640,7 @@ class Bitcoin(BitcoinMixin, Coin):
         'ozahtqwp25chjdjd.onion s t',
         'electrum.hodlister.co s',
         'electrum3.hodlister.co s',
-        'btc.usebsv.com s50006',
+        'FUNK.usebsv.com s50006',
         'fortress.qtornado.com s443 t',
         'ecdsa.net s110 t',
         'e2.keff.org s t',
@@ -1491,7 +1491,7 @@ class Zero(EquihashMixin, Coin):
 
 class BitcoinZ(EquihashMixin, Coin):
     NAME = "BitcoinZ"
-    SHORTNAME = "BTCZ"
+    SHORTNAME = "FUNKZ"
     NET = "mainnet"
     P2PKH_VERBYTE = bytes.fromhex("1CB8")
     P2SH_VERBYTES = (bytes.fromhex("1CBD"),)
@@ -3926,7 +3926,7 @@ class LitecoinCash(Coin):
 
 class BitcoinPrivate(EquihashMixin, Coin):
     NAME = "BitcoinPrivate"
-    SHORTNAME = "BTCP"
+    SHORTNAME = "FUNKP"
     NET = "mainnet"
     P2PKH_VERBYTE = bytes.fromhex("1325")
     P2SH_VERBYTES = (bytes.fromhex("13AF"),)

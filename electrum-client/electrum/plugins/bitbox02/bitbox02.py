@@ -195,8 +195,8 @@ class BitBox02Client(HardwareClientBase):
 
     def coin_network_from_electrum_network(self) -> int:
         if constants.net.TESTNET:
-            return bitbox02.btc.TBTC
-        return bitbox02.btc.BTC
+            return bitbox02.FUNK.TFUNK
+        return bitbox02.FUNK.FUNK
 
     @runs_in_hwd_thread
     def get_password_for_storage_encryption(self) -> str:
@@ -222,30 +222,30 @@ class BitBox02Client(HardwareClientBase):
         coin_network = self.coin_network_from_electrum_network()
 
         if xtype == "p2wpkh":
-            if coin_network == bitbox02.btc.BTC:
-                out_type = bitbox02.btc.BTCPubRequest.ZPUB
+            if coin_network == bitbox02.FUNK.FUNK:
+                out_type = bitbox02.FUNK.FUNKPubRequest.ZPUB
             else:
-                out_type = bitbox02.btc.BTCPubRequest.VPUB
+                out_type = bitbox02.FUNK.FUNKPubRequest.VPUB
         elif xtype == "p2wpkh-p2sh":
-            if coin_network == bitbox02.btc.BTC:
-                out_type = bitbox02.btc.BTCPubRequest.YPUB
+            if coin_network == bitbox02.FUNK.FUNK:
+                out_type = bitbox02.FUNK.FUNKPubRequest.YPUB
             else:
-                out_type = bitbox02.btc.BTCPubRequest.UPUB
+                out_type = bitbox02.FUNK.FUNKPubRequest.UPUB
         elif xtype == "p2wsh-p2sh":
-            if coin_network == bitbox02.btc.BTC:
-                out_type = bitbox02.btc.BTCPubRequest.CAPITAL_YPUB
+            if coin_network == bitbox02.FUNK.FUNK:
+                out_type = bitbox02.FUNK.FUNKPubRequest.CAPITAL_YPUB
             else:
-                out_type = bitbox02.btc.BTCPubRequest.CAPITAL_UPUB
+                out_type = bitbox02.FUNK.FUNKPubRequest.CAPITAL_UPUB
         elif xtype == "p2wsh":
-            if coin_network == bitbox02.btc.BTC:
-                out_type = bitbox02.btc.BTCPubRequest.CAPITAL_ZPUB
+            if coin_network == bitbox02.FUNK.FUNK:
+                out_type = bitbox02.FUNK.FUNKPubRequest.CAPITAL_ZPUB
             else:
-                out_type = bitbox02.btc.BTCPubRequest.CAPITAL_VPUB
+                out_type = bitbox02.FUNK.FUNKPubRequest.CAPITAL_VPUB
         # The other legacy types are not supported
         else:
             raise Exception("invalid xtype:{}".format(xtype))
 
-        return self.bitbox02_device.btc_xpub(
+        return self.bitbox02_device.FUNK_xpub(
             keypath=xpub_keypath,
             xpub_type=out_type,
             coin=coin_network,
@@ -282,7 +282,7 @@ class BitBox02Client(HardwareClientBase):
         return True
 
     @runs_in_hwd_thread
-    def btc_multisig_config(
+    def FUNK_multisig_config(
         self, coin, bip32_path: List[int], wallet: Multisig_Wallet, xtype: str,
     ):
         """
@@ -301,25 +301,25 @@ class BitBox02Client(HardwareClientBase):
             bip32.convert_bip32_intpath_to_strpath(account_keypath), xtype
         )
 
-        multisig_config = bitbox02.btc.BTCScriptConfig(
-            multisig=bitbox02.btc.BTCScriptConfig.Multisig(
+        multisig_config = bitbox02.FUNK.FUNKScriptConfig(
+            multisig=bitbox02.FUNK.FUNKScriptConfig.Multisig(
                 threshold=wallet.m,
                 xpubs=[util.parse_xpub(xpub) for xpub in xpubs],
                 our_xpub_index=xpubs.index(our_xpub),
                 script_type={
-                    "p2wsh": bitbox02.btc.BTCScriptConfig.Multisig.P2WSH,
-                    "p2wsh-p2sh": bitbox02.btc.BTCScriptConfig.Multisig.P2WSH_P2SH,
+                    "p2wsh": bitbox02.FUNK.FUNKScriptConfig.Multisig.P2WSH,
+                    "p2wsh-p2sh": bitbox02.FUNK.FUNKScriptConfig.Multisig.P2WSH_P2SH,
                 }[xtype]
             )
         )
 
-        is_registered = self.bitbox02_device.btc_is_script_config_registered(
+        is_registered = self.bitbox02_device.FUNK_is_script_config_registered(
             coin, multisig_config, account_keypath
         )
         if not is_registered:
             name = self.handler.name_multisig_account()
             try:
-                self.bitbox02_device.btc_register_script_config(
+                self.bitbox02_device.FUNK_register_script_config(
                     coin=coin,
                     script_config=multisig_config,
                     keypath=account_keypath,
@@ -345,16 +345,16 @@ class BitBox02Client(HardwareClientBase):
         coin_network = self.coin_network_from_electrum_network()
 
         if address_type == "p2wpkh":
-            script_config = bitbox02.btc.BTCScriptConfig(
-                simple_type=bitbox02.btc.BTCScriptConfig.P2WPKH
+            script_config = bitbox02.FUNK.FUNKScriptConfig(
+                simple_type=bitbox02.FUNK.FUNKScriptConfig.P2WPKH
             )
         elif address_type == "p2wpkh-p2sh":
-            script_config = bitbox02.btc.BTCScriptConfig(
-                simple_type=bitbox02.btc.BTCScriptConfig.P2WPKH_P2SH
+            script_config = bitbox02.FUNK.FUNKScriptConfig(
+                simple_type=bitbox02.FUNK.FUNKScriptConfig.P2WPKH_P2SH
             )
         elif address_type in ("p2wsh-p2sh", "p2wsh"):
             if type(wallet) is Multisig_Wallet:
-                script_config = self.btc_multisig_config(
+                script_config = self.FUNK_multisig_config(
                     coin_network, address_keypath, wallet, address_type,
                 )
             else:
@@ -366,7 +366,7 @@ class BitBox02Client(HardwareClientBase):
                 )
             )
 
-        return self.bitbox02_device.btc_address(
+        return self.bitbox02_device.FUNK_address(
             keypath=address_keypath,
             coin=coin_network,
             script_config=script_config,
@@ -374,7 +374,7 @@ class BitBox02Client(HardwareClientBase):
         )
 
     def _get_coin(self):
-        return bitbox02.btc.TBTC if constants.net.TESTNET else bitbox02.btc.BTC
+        return bitbox02.FUNK.TFUNK if constants.net.TESTNET else bitbox02.FUNK.FUNK
 
     @runs_in_hwd_thread
     def sign_transaction(
@@ -394,7 +394,7 @@ class BitBox02Client(HardwareClientBase):
         coin = self._get_coin()
         tx_script_type = None
 
-        # Build BTCInputType list
+        # Build FUNKInputType list
         inputs = []
         for txin in tx.inputs():
             my_pubkey, full_path = keystore.find_my_pubkey_in_txinout(txin)
@@ -408,8 +408,8 @@ class BitBox02Client(HardwareClientBase):
             if prev_tx is None:
                 raise UserFacingException(_('Missing previous tx.'))
 
-            prev_inputs: List[bitbox02.BTCPrevTxInputType] = []
-            prev_outputs: List[bitbox02.BTCPrevTxOutputType] = []
+            prev_inputs: List[bitbox02.FUNKPrevTxInputType] = []
+            prev_outputs: List[bitbox02.FUNKPrevTxOutputType] = []
             for prev_txin in prev_tx.inputs():
                 prev_inputs.append(
                     {
@@ -450,16 +450,16 @@ class BitBox02Client(HardwareClientBase):
                 raise Exception("Cannot mix different input script types")
 
         if tx_script_type == "p2wpkh":
-            tx_script_type = bitbox02.btc.BTCScriptConfig(
-                simple_type=bitbox02.btc.BTCScriptConfig.P2WPKH
+            tx_script_type = bitbox02.FUNK.FUNKScriptConfig(
+                simple_type=bitbox02.FUNK.FUNKScriptConfig.P2WPKH
             )
         elif tx_script_type == "p2wpkh-p2sh":
-            tx_script_type = bitbox02.btc.BTCScriptConfig(
-                simple_type=bitbox02.btc.BTCScriptConfig.P2WPKH_P2SH
+            tx_script_type = bitbox02.FUNK.FUNKScriptConfig(
+                simple_type=bitbox02.FUNK.FUNKScriptConfig.P2WPKH_P2SH
             )
         elif tx_script_type in ("p2wsh-p2sh", "p2wsh"):
             if type(wallet) is Multisig_Wallet:
-                tx_script_type = self.btc_multisig_config(coin, full_path, wallet, tx_script_type)
+                tx_script_type = self.FUNK_multisig_config(coin, full_path, wallet, tx_script_type)
             else:
                 raise Exception("Can only use p2wsh-p2sh or p2wsh with multisig wallets")
         else:
@@ -469,7 +469,7 @@ class BitBox02Client(HardwareClientBase):
                 )
             )
 
-        # Build BTCOutputType list
+        # Build FUNKOutputType list
         outputs = []
         for txout in tx.outputs():
             assert txout.address
@@ -477,22 +477,22 @@ class BitBox02Client(HardwareClientBase):
             if txout.is_change:
                 my_pubkey, change_pubkey_path = keystore.find_my_pubkey_in_txinout(txout)
                 outputs.append(
-                    bitbox02.BTCOutputInternal(
+                    bitbox02.FUNKOutputInternal(
                         keypath=change_pubkey_path, value=txout.value, script_config_index=0,
                     )
                 )
             else:
                 addrtype, payload = bitcoin.address_to_payload(txout.address)
                 if addrtype == OnchainOutputType.P2PKH:
-                    output_type = bitbox02.btc.P2PKH
+                    output_type = bitbox02.FUNK.P2PKH
                 elif addrtype == OnchainOutputType.P2SH:
-                    output_type = bitbox02.btc.P2SH
+                    output_type = bitbox02.FUNK.P2SH
                 elif addrtype == OnchainOutputType.WITVER0_P2WPKH:
-                    output_type = bitbox02.btc.P2WPKH
+                    output_type = bitbox02.FUNK.P2WPKH
                 elif addrtype == OnchainOutputType.WITVER0_P2WSH:
-                    output_type = bitbox02.btc.P2WSH
+                    output_type = bitbox02.FUNK.P2WSH
                 elif addrtype == OnchainOutputType.WITVER1_P2TR:
-                    output_type = bitbox02.btc.P2TR
+                    output_type = bitbox02.FUNK.P2TR
                 else:
                     raise UserFacingException(
                         "Received unsupported output type during transaction signing: {} is not supported by the BitBox02".format(
@@ -500,7 +500,7 @@ class BitBox02Client(HardwareClientBase):
                         )
                     )
                 outputs.append(
-                    bitbox02.BTCOutputExternal(
+                    bitbox02.FUNKOutputExternal(
                         output_type=output_type,
                         output_payload=payload,
                         value=txout.value,
@@ -508,9 +508,9 @@ class BitBox02Client(HardwareClientBase):
                 )
 
         keypath_account = full_path[:-2]
-        sigs = self.bitbox02_device.btc_sign(
+        sigs = self.bitbox02_device.FUNK_sign(
             coin,
-            [bitbox02.btc.BTCScriptConfigWithKeypath(
+            [bitbox02.FUNK.FUNKScriptConfigWithKeypath(
                 script_config=tx_script_type,
                 keypath=keypath_account,
             )],
@@ -534,16 +534,16 @@ class BitBox02Client(HardwareClientBase):
 
         try:
             simple_type = {
-                "p2wpkh-p2sh":bitbox02.btc.BTCScriptConfig.P2WPKH_P2SH,
-                "p2wpkh": bitbox02.btc.BTCScriptConfig.P2WPKH,
+                "p2wpkh-p2sh":bitbox02.FUNK.FUNKScriptConfig.P2WPKH_P2SH,
+                "p2wpkh": bitbox02.FUNK.FUNKScriptConfig.P2WPKH,
             }[script_type]
         except KeyError:
             raise UserFacingException("The BitBox02 does not support signing messages for this address type: {}".format(script_type))
 
-        _, _, signature = self.bitbox02_device.btc_sign_msg(
+        _, _, signature = self.bitbox02_device.FUNK_sign_msg(
             self._get_coin(),
-            bitbox02.btc.BTCScriptConfigWithKeypath(
-                script_config=bitbox02.btc.BTCScriptConfig(
+            bitbox02.FUNK.FUNKScriptConfigWithKeypath(
+                script_config=bitbox02.FUNK.FUNKScriptConfig(
                     simple_type=simple_type,
                 ),
                 keypath=bip32.convert_bip32_path_to_list_of_uint32(keypath),

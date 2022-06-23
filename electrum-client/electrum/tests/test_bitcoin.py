@@ -434,7 +434,7 @@ class Test_bitcoin(ElectrumTestCase):
         self.assertEqual(_op_push(0x12345678), '4e78563412')
 
     def test_script_num_to_hex(self):
-        # test vectors from https://github.com/btcsuite/btcd/blob/fdc2bc867bda6b351191b5872d2da8270df00d13/txscript/scriptnum.go#L77
+        # test vectors from https://github.com/FUNKsuite/FUNKd/blob/fdc2bc867bda6b351191b5872d2da8270df00d13/txscript/scriptnum.go#L77
         self.assertEqual(script_num_to_hex(127), '7f')
         self.assertEqual(script_num_to_hex(-127), 'ff')
         self.assertEqual(script_num_to_hex(128), '8000')

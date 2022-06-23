@@ -32,13 +32,13 @@ try:
     from btchip.btchipUtils import compress_public_key,format_transaction, get_regular_input_script, get_p2sh_input_script
     from btchip.bitcoinTransaction import bitcoinTransaction
     from btchip.btchipFirmwareWizard import checkFirmware, updateFirmware
-    from btchip.btchipException import BTChipException
-    BTCHIP = True
-    BTCHIP_DEBUG = False
+    from btchip.btchipException import btchipException
+    btchip = True
+    btchip_DEBUG = False
 except ImportError as e:
     if not (isinstance(e, ModuleNotFoundError) and e.name == 'btchip'):
         _logger.exception('error importing ledger plugin deps')
-    BTCHIP = False
+    btchip = False
 
 MSG_NEEDS_FW_UPDATE_GENERIC = _('Firmware version too old. Please update at') + \
                       ' https://www.ledgerwallet.com'
@@ -57,7 +57,7 @@ def test_pin_unlocked(func):
     def catch_exception(self, *args, **kwargs):
         try:
             return func(self, *args, **kwargs)
-        except BTChipException as e:
+        except btchipException as e:
             if e.sw == 0x6982:
                 raise UserFacingException(_('Your Ledger is locked. Please unlock it.'))
             else:
@@ -147,7 +147,7 @@ class Ledger_Client(HardwareClientBase):
         try:
             client.getVerifyPinRemainingAttempts()
             return True
-        except BTChipException as e:
+        except btchipException as e:
             if e.sw == 0x6d00:
                 return False
             raise e
@@ -156,7 +156,7 @@ class Ledger_Client(HardwareClientBase):
         try:
             # Invalid SET OPERATION MODE to verify the PIN status
             client.dongle.exchange(bytearray([0xe0, 0x26, 0x00, 0x00, 0x01, 0xAB]))
-        except BTChipException as e:
+        except btchipException as e:
             if (e.sw == 0x6982):
                 return False
             if (e.sw == 0x6A80):
@@ -190,7 +190,7 @@ class Ledger_Client(HardwareClientBase):
                 raise UserFacingException(MSG_NEEDS_FW_UPDATE_GENERIC)
             try:
                 self.dongleObject.getOperationMode()
-            except BTChipException as e:
+            except btchipException as e:
                 if (e.sw == 0x6985):
                     self.close()
                     self.handler.get_setup()
@@ -209,7 +209,7 @@ class Ledger_Client(HardwareClientBase):
                     raise UserFacingException('Aborted by user - please unplug the dongle and plug it again before retrying')
                 pin = pin.encode()
                 self.dongleObject.verifyPin(pin)
-        except BTChipException as e:
+        except btchipException as e:
             if (e.sw == 0x6faa):
                 raise UserFacingException("Dongle is temporarily locked - please unplug it and replug it again")
             if ((e.sw & 0xFFF0) == 0x63c0):
@@ -225,7 +225,7 @@ class Ledger_Client(HardwareClientBase):
         if not self.preflightDone:
             try:
                 self.perform_hw1_preflight()
-            except BTChipException as e:
+            except btchipException as e:
                 if (e.sw == 0x6d00 or e.sw == 0x6700):
                     raise UserFacingException(_("Device not in Bitcoin mode")) from e
                 raise e
@@ -301,7 +301,7 @@ class Ledger_KeyStore(Hardware_KeyStore):
                     raise UserWarning(_('Cancelled by user'))
                 pin = str(pin).encode()
             signature = client_ledger.signMessageSign(pin)
-        except BTChipException as e:
+        except btchipException as e:
             if e.sw == 0x6a80:
                 self.give_error("Unfortunately, this message cannot be signed by the Ledger wallet. "
                                 "Only alphanumerical messages shorter than 140 characters are supported. "
@@ -416,7 +416,7 @@ class Ledger_KeyStore(Hardware_KeyStore):
             if not txout.address:
                 if client_electrum.is_hw1():
                     self.give_error(_("Only address outputs are supported by {}").format(self.device))
-                # note: max_size based on https://github.com/LedgerHQ/ledger-app-btc/commit/3a78dee9c0484821df58975803e40d58fbfc2c38#diff-c61ccd96a6d8b54d48f54a3bc4dfa7e2R26
+                # note: max_size based on https://github.com/LedgerHQ/ledger-app-FUNK/commit/3a78dee9c0484821df58975803e40d58fbfc2c38#diff-c61ccd96a6d8b54d48f54a3bc4dfa7e2R26
                 validate_op_return_output(txout, max_size=190)
 
         # Output "change" detection
@@ -534,7 +534,7 @@ class Ledger_KeyStore(Hardware_KeyStore):
         except UserWarning:
             self.handler.show_error(_('Cancelled by user'))
             return
-        except BTChipException as e:
+        except btchipException as e:
             if e.sw in (0x6985, 0x6d00):  # cancelled by user
                 return
             elif e.sw == 0x6982:
@@ -559,7 +559,7 @@ class Ledger_KeyStore(Hardware_KeyStore):
         segwitNative = txin_type == 'p2wpkh'
         try:
             client_ledger.getWalletPublicKey(address_path, showOnScreen=True, segwit=segwit, segwitNative=segwitNative)
-        except BTChipException as e:
+        except btchipException as e:
             if e.sw == 0x6985:  # cancelled by user
                 pass
             elif e.sw == 0x6982:
@@ -623,7 +623,7 @@ class LedgerPlugin(HW_PluginBase):
             raise
         except:
             version = "unknown"
-        if BTCHIP:
+        if btchip:
             return version
         else:
             raise LibraryFoundButUnusable(library_version=version)
@@ -682,7 +682,7 @@ class LedgerPlugin(HW_PluginBase):
         dev = hid.device()
         dev.open_path(device.path)
         dev.set_nonblocking(True)
-        return HIDDongleHIDAPI(dev, ledger, BTCHIP_DEBUG)
+        return HIDDongleHIDAPI(dev, ledger, btchip_DEBUG)
 
     @runs_in_hwd_thread
     def create_client(self, device, handler):

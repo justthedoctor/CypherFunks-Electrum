@@ -388,7 +388,7 @@ class BaseWizard(Logger):
             self.logger.exception('')
             self.show_error(str(e))
             raise ChooseHwDeviceAgain()
-
+ #1R  READ ME LATER
         if purpose == HWD_SETUP_NEW_WALLET:
             def f(derivation, script_type):
                 derivation = normalize_bip32_derivation(derivation)

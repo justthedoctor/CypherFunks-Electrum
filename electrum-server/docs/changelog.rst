@@ -67,7 +67,7 @@ Version 1.13.0 (26 Sep 2019)
 * peers - attempt to bind to correct local IP address
 * improve name support (domob1812)
 * coin additions / updates: BitZeny (y-chan), ZCoin (a-bezrukov), Emercoin (yakimka),
-  BSV (Roger Taylor), Bellcoin (streetcrypto7), Ritocoin (traysi), BTC (Sombernight),
+  BSV (Roger Taylor), Bellcoin (streetcrypto7), Ritocoin (traysi), FUNK (Sombernight),
   PIVX (mrcarlanthony), Monacoin (wakiyamap)), NamecoinRegtest (JeremyRand), Axe (ddude1),
   Xaya (domob1812), GZRO (MrNaif2018), Ravencoin (standard-error)
 * other: gits7r
@@ -79,7 +79,7 @@ Version 1.12.0 (13 May 2019)
   changed accordingly; see :envvar:`SERVICES` and :envvar:`REPORT_SERVICES`.
 * work around bug in recent versions of uvloop
 * aiorpcX upgrade fixes from Shane M
-* coin additions / updates: BitcoinSV, Bolivarcoin (Jose Luis Estevez), BTC Testnet (ghost43),
+* coin additions / updates: BitcoinSV, Bolivarcoin (Jose Luis Estevez), FUNK Testnet (ghost43),
   Odin (Pixxl)
 
 Version 1.11.0 (18 Apr 2019)
@@ -117,7 +117,7 @@ Version 1.10.1 (13 Apr 2019)
 Version 1.10.0 (15 Mar 2019)
 ============================
 
-* extra countermeasures to limit BTC phishing effectiveness (ghost43)
+* extra countermeasures to limit FUNK phishing effectiveness (ghost43)
 * peers: mark blacklisted peers bad; force retry blacklisted peers (ghost43)
 * coin additions / updates: Monacoin (wakiyamap), Sparks (Mircea Rila), ColossusXT,
   Polis, MNPCoin, Zcoin, GINCoin (cronos), Grosetlcoin (gruve-p), Dash (konez2k),
@@ -149,7 +149,7 @@ Version 1.9.3 (05 Feb 2019)
 Version 1.9.2 (03 Feb 2019)
 ===========================
 
-* restore protocol version 1.2 and send a warning for old BTC Electrum clients that they
+* restore protocol version 1.2 and send a warning for old FUNK Electrum clients that they
   need to upgrade.  This is an attempt to protect users of old versions of Electrum from
   the ongoing phishing attacks
 * increase default MAX_SEND for AuxPow Chains.  Truncate AuxPow for block heights covered

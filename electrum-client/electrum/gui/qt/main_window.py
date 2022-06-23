@@ -83,7 +83,7 @@ from electrum.lnutil import ln_dummy_address, extract_nodeid, ConnStringFormatEr
 from electrum.lnaddr import lndecode, LnInvoiceException
 
 from .exception_window import Exception_Hook
-from .amountedit import AmountEdit, BTCAmountEdit, FreezableLineEdit, FeerateEdit, SizedFreezableLineEdit
+from .amountedit import AmountEdit, FUNKAmountEdit, FreezableLineEdit, FeerateEdit, SizedFreezableLineEdit
 from .qrcodewidget import QRCodeWidget, QRDialog
 from .qrtextedit import ShowQRTextEdit, ScanQRTextEdit, ScanShowQRTextEdit
 from .transaction_dialog import show_transaction
@@ -936,7 +936,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
 
     def format_amount_and_units(self, amount_sat, *, timestamp: int = None) -> str:
         """Returns string with both bitcoin and fiat amounts, in desired units.
-        E.g. 500_000 -> '0.005 BTC (191.42 EUR)'
+        E.g. 500_000 -> '0.005 FUNK (191.42 EUR)'
         """
         text = self.config.format_amount_and_units(amount_sat)
         fiat = self.fx.format_amount_and_units(amount_sat, timestamp=timestamp) if self.fx else None
@@ -959,7 +959,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
     def base_unit(self):
         return self.config.get_base_unit()
 
-    def connect_fields(self, window, btc_e, fiat_e, fee_e):
+    def connect_fields(self, window, FUNK_e, fiat_e, fee_e):
 
         def edit_changed(edit):
             if edit.follows:
@@ -970,17 +970,17 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
             rate = self.fx.exchange_rate() if self.fx else Decimal('NaN')
             if rate.is_nan() or amount is None:
                 if edit is fiat_e:
-                    btc_e.setText("")
+                    FUNK_e.setText("")
                     if fee_e:
                         fee_e.setText("")
                 else:
                     fiat_e.setText("")
             else:
                 if edit is fiat_e:
-                    btc_e.follows = True
-                    btc_e.setAmount(int(amount / Decimal(rate) * COIN))
-                    btc_e.setStyleSheet(ColorScheme.BLUE.as_stylesheet())
-                    btc_e.follows = False
+                    FUNK_e.follows = True
+                    FUNK_e.setAmount(int(amount / Decimal(rate) * COIN))
+                    FUNK_e.setStyleSheet(ColorScheme.BLUE.as_stylesheet())
+                    FUNK_e.follows = False
                     if fee_e:
                         window.update_fee()
                 else:
@@ -990,10 +990,10 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
                     fiat_e.setStyleSheet(ColorScheme.BLUE.as_stylesheet())
                     fiat_e.follows = False
 
-        btc_e.follows = False
+        FUNK_e.follows = False
         fiat_e.follows = False
         fiat_e.textChanged.connect(partial(edit_changed, fiat_e))
-        btc_e.textChanged.connect(partial(edit_changed, btc_e))
+        FUNK_e.textChanged.connect(partial(edit_changed, FUNK_e))
         fiat_e.is_last_edited = False
 
     def update_status(self):
@@ -1159,7 +1159,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
         grid.addWidget(QLabel(_('Description')), 0, 0)
         grid.addWidget(self.receive_message_e, 0, 1, 1, 4)
 
-        self.receive_amount_e = BTCAmountEdit(self.get_decimal_point)
+        self.receive_amount_e = FUNKAmountEdit(self.get_decimal_point)
         grid.addWidget(QLabel(_('Requested amount')), 1, 0)
         grid.addWidget(self.receive_amount_e, 1, 1)
 
@@ -1526,7 +1526,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
         grid.setColumnStretch(3, 1)
 
         from .paytoedit import PayToEdit
-        self.amount_e = BTCAmountEdit(self.get_decimal_point)
+        self.amount_e = FUNKAmountEdit(self.get_decimal_point)
         self.payto_e = PayToEdit(self)
         self.payto_e.addPasteButton()
         msg = (_("Recipient of the funds.") + "\n\n"
@@ -3603,7 +3603,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
         output_amount = QLabel('')
         grid.addWidget(QLabel(_('Output amount') + ':'), 2, 0)
         grid.addWidget(output_amount, 2, 1)
-        fee_e = BTCAmountEdit(self.get_decimal_point)
+        fee_e = FUNKAmountEdit(self.get_decimal_point)
         combined_fee = QLabel('')
         combined_feerate = QLabel('')
         def on_fee_edit(x):

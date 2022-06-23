@@ -1073,7 +1073,7 @@ class LNWallet(LNWorker):
         lightning_needed = amount_to_pay - num_sats_can_send
         assert lightning_needed > 0
         min_funding_sat = lightning_needed + (lightning_needed // 20) + 1000 # safety margin
-        min_funding_sat = max(min_funding_sat, 100_000) # at least 1mBTC
+        min_funding_sat = max(min_funding_sat, 100_000) # at least 1mFUNK
         if min_funding_sat > LN_MAX_FUNDING_SAT:
             return
         try:
@@ -1803,12 +1803,12 @@ class LNWallet(LNWorker):
         payment_preimage = os.urandom(32)
         payment_hash = sha256(payment_preimage)
         info = PaymentInfo(payment_hash, amount_msat, RECEIVED, PR_UNPAID)
-        amount_btc = amount_msat/Decimal(COIN*1000) if amount_msat else None
+        amount_FUNK = amount_msat/Decimal(COIN*1000) if amount_msat else None
         if expiry == 0:
             expiry = LN_EXPIRY_NEVER
         lnaddr = LnAddr(
             paymenthash=payment_hash,
-            amount=amount_btc,
+            amount=amount_FUNK,
             tags=[
                 ('d', message),
                 ('c', MIN_FINAL_CLTV_EXPIRY_FOR_INVOICE),

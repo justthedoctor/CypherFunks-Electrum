@@ -246,7 +246,7 @@ be accepted to the daemon's memory pool.
 
 **Result**
 
-  The fee in whole coin units (BTC, not satoshis for Bitcoin) as a
+  The fee in whole coin units (FUNK, not satoshis for Bitcoin) as a
   floating point number.
 
 **Example Results**
