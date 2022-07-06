@@ -289,7 +289,7 @@ class AuxPowMixin:
     SESSIONCLS = AuxPoWElectrumX
     TRUNCATED_HEADER_SIZE = 80
     # AuxPoW headers are significantly larger, so the DEFAULT_MAX_SEND from
-    # Bitcoin is insufficient.  In Namecoin mainnet, 5 MB wasn't enough to
+    # Cypherfunks is insufficient.  In Namecoin mainnet, 5 MB wasn't enough to
     # sync, while 10 MB worked fine.
     DEFAULT_MAX_SEND = 10000000
 
@@ -349,7 +349,7 @@ class KomodoMixin:
     DESERIALIZER = lib_tx.DeserializerZcash
 
 
-class BitcoinMixin:
+class CypherfunksMixin:
     SHORTNAME = "FUNK"
     NET = "mainnet"
     XPUB_VERBYTES = bytes.fromhex("0488b21e")
@@ -579,8 +579,8 @@ class HOdlcoin(Coin):
     TX_PER_BLOCK = 5
 
 
-class BitcoinSV(BitcoinMixin, Coin):
-    NAME = "BitcoinSV"
+class CypherfunksSV(CypherfunksMixin, Coin):
+    NAME = "CypherfunksSV"
     SHORTNAME = "BSV"
     TX_COUNT = 267318795
     TX_COUNT_HEIGHT = 557037
@@ -595,8 +595,8 @@ class BitcoinSV(BitcoinMixin, Coin):
     GENESIS_ACTIVATION = 620_538
 
 
-class BitcoinCash(BitcoinMixin, Coin):
-    NAME = "BitcoinCash"
+class CypherfunksCash(CypherfunksMixin, Coin):
+    NAME = "CypherfunksCash"
     SHORTNAME = "BCH"
     TX_COUNT = 265479628
     TX_COUNT_HEIGHT = 556592
@@ -623,8 +623,8 @@ class BitcoinCash(BitcoinMixin, Coin):
         return False
 
 
-class Bitcoin(BitcoinMixin, Coin):
-    NAME = "Bitcoin"
+class Cypherfunks(CypherfunksMixin, Coin):
+    NAME = "Cypherfunks"
     DESERIALIZER = lib_tx.DeserializerSegWit
     MEMPOOL_HISTOGRAM_REFRESH_SECS = 120
     TX_COUNT = 565436782
@@ -677,13 +677,13 @@ class Bitcoin(BitcoinMixin, Coin):
         return 1008
 
 
-class BitcoinSegwit(Bitcoin):
-    NAME = "BitcoinSegwit"  # support legacy name
+class CypherfunksSegwit(Cypherfunks):
+    NAME = "CypherfunksSegwit"  # support legacy name
 
 
-class BitcoinGold(EquihashMixin, BitcoinMixin, Coin):
+class CypherfunksGold(EquihashMixin, CypherfunksMixin, Coin):
     CHUNK_SIZE = 252
-    NAME = "BitcoinGold"
+    NAME = "CypherfunksGold"
     SHORTNAME = "BTG"
     FORK_HEIGHT = 491407
     P2PKH_VERBYTE = bytes.fromhex("26")
@@ -709,7 +709,7 @@ class BitcoinGold(EquihashMixin, BitcoinMixin, Coin):
             return double_sha256(header[:68] + header[100:112])
 
 
-class BitcoinGoldTestnet(BitcoinGold):
+class CypherfunksGoldTestnet(CypherfunksGold):
     FORK_HEIGHT = 1
     SHORTNAME = "TBTG"
     XPUB_VERBYTES = bytes.fromhex("043587CF")
@@ -730,7 +730,7 @@ class BitcoinGoldTestnet(BitcoinGold):
     ]
 
 
-class BitcoinGoldRegtest(BitcoinGold):
+class CypherfunksGoldRegtest(CypherfunksGold):
     FORK_HEIGHT = 2000
     SHORTNAME = "TBTG"
     XPUB_VERBYTES = bytes.fromhex("043587CF")
@@ -747,8 +747,8 @@ class BitcoinGoldRegtest(BitcoinGold):
     PEERS = []
 
 
-class BitcoinDiamond(Bitcoin, Coin):
-    NAME = "BitcoinDiamond"
+class CypherfunksDiamond(Cypherfunks, Coin):
+    NAME = "CypherfunksDiamond"
     SHORTNAME = "BCD"
     TX_VERSION = 12
     TX_COUNT = 274277819
@@ -757,7 +757,7 @@ class BitcoinDiamond(Bitcoin, Coin):
     REORG_LIMIT = 1000
     PEERS = []
     VALUE_PER_COIN = 10000000
-    DESERIALIZER = lib_tx.DeserializerBitcoinDiamondSegWit
+    DESERIALIZER = lib_tx.DeserializerCypherfunksDiamondSegWit
 
 
 class Emercoin(NameMixin, Coin):
@@ -819,7 +819,7 @@ class Emercoin(NameMixin, Coin):
         return super().hashX_from_script(address_script)
 
 
-class BitcoinTestnetMixin:
+class CypherfunksTestnetMixin:
     SHORTNAME = "XTN"
     NET = "testnet"
     XPUB_VERBYTES = bytes.fromhex("043587cf")
@@ -837,16 +837,16 @@ class BitcoinTestnetMixin:
     PEER_DEFAULT_PORTS = {'t': '51001', 's': '51002'}
 
 
-class BitcoinSVTestnet(BitcoinTestnetMixin, Coin):
-    '''Bitcoin Testnet for Bitcoin SV daemons.'''
-    NAME = "BitcoinSV"
+class CypherfunksSVTestnet(CypherfunksTestnetMixin, Coin):
+    '''Cypherfunks Testnet for Cypherfunks SV daemons.'''
+    NAME = "CypherfunksSV"
     PEERS = [
         'electrontest.cascharia.com t51001 s51002',
     ]
     GENESIS_ACTIVATION = 1_344_302
 
 
-class BitcoinSVScalingTestnet(BitcoinSVTestnet):
+class CypherfunksSVScalingTestnet(CypherfunksSVTestnet):
     NET = "scalingtest"
     PEERS = [
         'stn-server.electrumsv.io t51001 s51002',
@@ -863,9 +863,9 @@ class BitcoinSVScalingTestnet(BitcoinSVTestnet):
         return 3
 
 
-class BitcoinCashTestnet(BitcoinTestnetMixin, Coin):
-    '''Bitcoin Testnet for Bitcoin Cash daemons.'''
-    NAME = "BitcoinCash"
+class CypherfunksCashTestnet(CypherfunksTestnetMixin, Coin):
+    '''Cypherfunks Testnet for Cypherfunks Cash daemons.'''
+    NAME = "CypherfunksCash"
     PEERS = [
         'bch0.kister.net t s',
         'testnet.imaginary.cash t50001 s50002',
@@ -885,7 +885,7 @@ class BitcoinCashTestnet(BitcoinTestnetMixin, Coin):
         return False
 
 
-class BitcoinSVRegtest(BitcoinSVTestnet):
+class CypherfunksSVRegtest(CypherfunksSVTestnet):
     NET = "regtest"
     GENESIS_HASH = ('0f9188f13cb7b2c71f2a335e3a4fc328'
                     'bf5beb436012afca590b1a11466e2206')
@@ -895,9 +895,9 @@ class BitcoinSVRegtest(BitcoinSVTestnet):
     GENESIS_ACTIVATION = 10_000
 
 
-class BitcoinTestnet(BitcoinTestnetMixin, Coin):
-    '''Bitcoin Testnet for Core bitcoind >= 0.13.1.'''
-    NAME = "Bitcoin"
+class CypherfunksTestnet(CypherfunksTestnetMixin, Coin):
+    '''Cypherfunks Testnet for Core bitcoind >= 0.13.1.'''
+    NAME = "Cypherfunks"
     DESERIALIZER = lib_tx.DeserializerSegWit
     CRASH_CLIENT_VER = (3, 2, 3)
     PEERS = [
@@ -921,12 +921,12 @@ class BitcoinTestnet(BitcoinTestnetMixin, Coin):
         return False
 
 
-class BitcoinSegwitTestnet(BitcoinTestnet):
-    NAME = "BitcoinSegwit"  # support legacy name
+class CypherfunksSegwitTestnet(CypherfunksTestnet):
+    NAME = "CypherfunksSegwit"  # support legacy name
 
 
-class BitcoinRegtest(BitcoinTestnet):
-    NAME = "Bitcoin"
+class CypherfunksRegtest(CypherfunksTestnet):
+    NAME = "Cypherfunks"
     NET = "regtest"
     GENESIS_HASH = ('0f9188f13cb7b2c71f2a335e3a4fc328'
                     'bf5beb436012afca590b1a11466e2206')
@@ -935,12 +935,12 @@ class BitcoinRegtest(BitcoinTestnet):
     TX_COUNT_HEIGHT = 1
 
 
-class BitcoinSegwitRegtest(BitcoinRegtest):
-    NAME = "BitcoinSegwit"  # support legacy name
+class CypherfunksSegwitRegtest(CypherfunksRegtest):
+    NAME = "CypherfunksSegwit"  # support legacy name
 
 
-class BitcoinSignet(BitcoinTestnet):
-    NAME = "Bitcoin"
+class CypherfunksSignet(CypherfunksTestnet):
+    NAME = "Cypherfunks"
     NET = "signet"
     GENESIS_HASH = ('00000008819873e925422c1ff0f99f7c'
                     'c9bbb232af63a077a480a3633bee1ef6')
@@ -949,12 +949,12 @@ class BitcoinSignet(BitcoinTestnet):
     TX_COUNT_HEIGHT = 1
 
 
-class BitcoinSegwitSignet(BitcoinSignet):
-    NAME = "BitcoinSegwit"  # support legacy name
+class CypherfunksSegwitSignet(CypherfunksSignet):
+    NAME = "CypherfunksSegwit"  # support legacy name
 
 
-class BitcoinNolnet(BitcoinCash):
-    '''Bitcoin Unlimited nolimit testnet.'''
+class CypherfunksNolnet(CypherfunksCash):
+    '''Cypherfunks Unlimited nolimit testnet.'''
     NET = "nolnet"
     GENESIS_HASH = ('0000000057e31bd2066c939a63b7b862'
                     '3bd0f10d8c001304bdfc1a7902ae6d35')
@@ -1067,8 +1067,8 @@ class LitecoinRegtest(LitecoinTestnet):
     TX_COUNT_HEIGHT = 1
 
 
-class BitcoinCashRegtest(BitcoinTestnetMixin, Coin):
-    NAME = "BitcoinCash"
+class CypherfunksCashRegtest(CypherfunksTestnetMixin, Coin):
+    NAME = "CypherfunksCash"
     NET = "regtest"
     PEERS = []
     GENESIS_HASH = ('0f9188f13cb7b2c71f2a335e3a4fc328'
@@ -1142,9 +1142,9 @@ class GravityCoin(Coin):
     PEERS = []
 
 
-# Source: https://github.com/BitcoinZeroOfficial/bitcoinzero
-class Bitcoinzero(Coin):
-    NAME = "Bitcoinzero"
+# Source: https://github.com/CypherfunksZeroOfficial/bitcoinzero
+class Cypherfunkszero(Coin):
+    NAME = "Cypherfunkszero"
     SHORTNAME = "BZX"
     TX_COUNT = 43798
     TX_COUNT_HEIGHT = 44
@@ -1489,8 +1489,8 @@ class Zero(EquihashMixin, Coin):
     REORG_LIMIT = 800
 
 
-class BitcoinZ(EquihashMixin, Coin):
-    NAME = "BitcoinZ"
+class CypherfunksZ(EquihashMixin, Coin):
+    NAME = "CypherfunksZ"
     SHORTNAME = "FUNKZ"
     NET = "mainnet"
     P2PKH_VERBYTE = bytes.fromhex("1CB8")
@@ -2198,7 +2198,7 @@ class NewyorkcoinTestnet(Newyorkcoin):
     REORG_LIMIT = 2000
 
 
-class Bitcore(BitcoinMixin, Coin):
+class Bitcore(CypherfunksMixin, Coin):
     NAME = "Bitcore"
     SHORTNAME = "BTX"
     P2PKH_VERBYTE = bytes.fromhex("03")
@@ -2253,14 +2253,14 @@ class Machinecoin(Coin):
     REORG_LIMIT = 800
 
 
-class BitcoinAtom(Coin):
-    NAME = "BitcoinAtom"
+class CypherfunksAtom(Coin):
+    NAME = "CypherfunksAtom"
     SHORTNAME = "BCA"
     NET = "mainnet"
     P2PKH_VERBYTE = bytes.fromhex("17")
     P2SH_VERBYTES = (bytes.fromhex("0a"),)
     STATIC_BLOCK_HEADERS = False
-    DESERIALIZER = lib_tx.DeserializerBitcoinAtom
+    DESERIALIZER = lib_tx.DeserializerCypherfunksAtom
     HEADER_SIZE_POST_FORK = 84
     BLOCK_PROOF_OF_STAKE = 0x01
     BLOCK_PROOF_OF_STAKE_FLAGS = b'\x01\x00\x00\x00'
@@ -2883,7 +2883,7 @@ class PivxTestnet(Pivx):
 
 class Bitg(Coin):
 
-    NAME = "BitcoinGreen"
+    NAME = "CypherfunksGreen"
     SHORTNAME = "BITG"
     NET = "mainnet"
     XPUB_VERBYTES = bytes.fromhex("0488b21e")
@@ -3047,8 +3047,8 @@ class Noir(Coin):
     TX_PER_BLOCK = 5
 
 
-class BitcoinPlus(Coin):
-    NAME = "BitcoinPlus"
+class CypherfunksPlus(Coin):
+    NAME = "CypherfunksPlus"
     SHORTNAME = "XBC"
     NET = "mainnet"
     XPUB_VERBYTES = bytes.fromhex("0488B21E")
@@ -3924,8 +3924,8 @@ class LitecoinCash(Coin):
     REORG_LIMIT = 5000
 
 
-class BitcoinPrivate(EquihashMixin, Coin):
-    NAME = "BitcoinPrivate"
+class CypherfunksPrivate(EquihashMixin, Coin):
+    NAME = "CypherfunksPrivate"
     SHORTNAME = "FUNKP"
     NET = "mainnet"
     P2PKH_VERBYTE = bytes.fromhex("1325")

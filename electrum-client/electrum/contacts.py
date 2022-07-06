@@ -1,4 +1,4 @@
-# Electrum - Lightweight Bitcoin Client
+# Electrum - Lightweight Cypherfunks Client
 # Copyright (c) 2015 Thomas Voegtlin
 #
 # Permission is hereby granted, free of charge, to any person
@@ -92,7 +92,7 @@ class Contacts(dict, Logger):
                 'type': 'openalias',
                 'validated': validated
             }
-        raise Exception("Invalid Bitcoin address or alias", k)
+        raise Exception("Invalid Cypherfunks address or alias", k)
 
     def fetch_openalias(self, config):
         self.alias_info = None
@@ -132,7 +132,7 @@ class Contacts(dict, Logger):
             return regex.search(haystack).groups()[0]
         except AttributeError:
             return None
-            
+
     def _validate(self, data):
         for k, v in list(data.items()):
             if k == 'contacts':
@@ -144,4 +144,3 @@ class Contacts(dict, Logger):
                 if _type != 'address':
                     data.pop(k)
         return data
-

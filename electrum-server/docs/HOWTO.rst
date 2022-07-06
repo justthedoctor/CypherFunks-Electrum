@@ -53,7 +53,7 @@ used to either.
 When building the database from the genesis block, ElectrumX has to
 flush large quantities of data to disk and its DB.  You will have a
 better experience if the database directory is on an SSD than on an
-HDD.  Currently to around height 611,600 of the Bitcoin blockchain the
+HDD.  Currently to around height 611,600 of the Cypherfunks blockchain the
 final size of the leveldb database, and other ElectrumX file metadata
 comes to just over 46.9GB (43.7 GiB).  LevelDB needs a bit more for
 brief periods, and the block chain is only getting longer, so I would
@@ -339,7 +339,7 @@ Here is typical log output on startup::
   INFO:BlockProcessor:creating metadata diretcory
   INFO:BlockProcessor:software version: ElectrumX 0.10.2
   INFO:BlockProcessor:DB version: 5
-  INFO:BlockProcessor:coin: Bitcoin
+  INFO:BlockProcessor:coin: Cypherfunks
   INFO:BlockProcessor:network: mainnet
   INFO:BlockProcessor:height: -1
   INFO:BlockProcessor:tip: 0000000000000000000000000000000000000000000000000000000000000000

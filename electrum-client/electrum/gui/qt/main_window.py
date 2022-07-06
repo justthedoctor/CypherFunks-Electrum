@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Electrum - lightweight Bitcoin client
+# Electrum - lightweight Cypherfunks client
 # Copyright (C) 2012 thomasv@gitorious
 #
 # Permission is hereby granted, free of charge, to any person
@@ -62,7 +62,7 @@ from electrum.util import (format_time,
                            bh2u, bfh, InvalidPassword,
                            UserFacingException,
                            get_new_wallet_name, send_exception_to_crash_reporter,
-                           InvalidBitcoinURI, maybe_extract_bolt11_invoice, NotEnoughFunds,
+                           InvalidCypherfunksURI, maybe_extract_bolt11_invoice, NotEnoughFunds,
                            NoDynamicFeeEstimates,
                            AddTransactionException, BITCOIN_BIP21_URI_SCHEME,
                            InvoiceError, parse_max_spend)
@@ -600,8 +600,8 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
         if self.wallet.is_watching_only():
             msg = ' '.join([
                 _("This wallet is watching-only."),
-                _("This means you will not be able to spend Bitcoins with it."),
-                _("Make sure you own the seed phrase or the private keys, before you request Bitcoins to be sent to this wallet.")
+                _("This means you will not be able to spend Cypherfunkss with it."),
+                _("Make sure you own the seed phrase or the private keys, before you request Cypherfunkss to be sent to this wallet.")
             ])
             self.show_warning(msg, title=_('Watch-only wallet'))
 
@@ -618,7 +618,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
         msg = ''.join([
             _("You are in testnet mode."), ' ',
             _("Testnet coins are worthless."), '\n',
-            _("Testnet is separate from the main Bitcoin network. It is used for testing.")
+            _("Testnet is separate from the main Cypherfunks network. It is used for testing.")
         ])
         cb = QCheckBox(_("Don't show this again."))
         cb_checked = False
@@ -821,7 +821,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
         help_menu.addSeparator()
         help_menu.addAction(_("&Documentation"), lambda: webopen("http://docs.electrum.org/")).setShortcut(QKeySequence.HelpContents)
         if not constants.net.TESTNET:
-            help_menu.addAction(_("&Bitcoin Paper"), self.show_bitcoin_paper)
+            help_menu.addAction(_("&Cypherfunks Paper"), self.show_bitcoin_paper)
         help_menu.addAction(_("&Report Bug"), self.show_report_bug)
         help_menu.addSeparator()
         help_menu.addAction(_("&Donate to server"), self.donate_to_server)
@@ -839,11 +839,11 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
     def show_about(self):
         QMessageBox.about(self, "Electrum",
                           (_("Version")+" %s" % ELECTRUM_VERSION + "\n\n" +
-                           _("Electrum's focus is speed, with low resource usage and simplifying Bitcoin.") + " " +
+                           _("Electrum's focus is speed, with low resource usage and simplifying Cypherfunks.") + " " +
                            _("You do not need to perform regular backups, because your wallet can be "
                               "recovered from a secret phrase that you can memorize or write on paper.") + " " +
                            _("Startup times are instant because it operates in conjunction with high-performance "
-                              "servers that handle the most complicated parts of the Bitcoin system.") + "\n\n" +
+                              "servers that handle the most complicated parts of the Cypherfunks system.") + "\n\n" +
                            _("Uses icons from the Icons8 icon pack (icons8.com).")))
 
     def show_bitcoin_paper(self):
@@ -1530,9 +1530,9 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
         self.payto_e = PayToEdit(self)
         self.payto_e.addPasteButton()
         msg = (_("Recipient of the funds.") + "\n\n"
-               + _("You may enter a Bitcoin address, a label from your list of contacts "
+               + _("You may enter a Cypherfunks address, a label from your list of contacts "
                    "(a list of completions will be proposed), "
-                   "or an alias (email-like address that forwards to a Bitcoin address)") + ". "
+                   "or an alias (email-like address that forwards to a Cypherfunks address)") + ". "
                + _("Lightning invoices are also supported.") + "\n\n"
                + _("You can also pay to many outputs in a single transaction, "
                    "specifying one output per line.") + "\n" + _("Format: address, amount") + "\n"
@@ -1690,7 +1690,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
 
         for o in outputs:
             if o.scriptpubkey is None:
-                self.show_error(_('Bitcoin Address is None'))
+                self.show_error(_('Cypherfunks Address is None'))
                 return True
             if o.value is None:
                 self.show_error(_('Invalid Amount'))
@@ -2241,7 +2241,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
     def set_bip21(self, text: str):
         try:
             out = util.parse_URI(text, self.on_pr)
-        except InvalidBitcoinURI as e:
+        except InvalidCypherfunksURI as e:
             self.show_error(_("Error parsing URI") + f":\n{e}")
             return
         self.payto_URI = out
@@ -2928,7 +2928,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
         address  = address.text().strip()
         message = message.toPlainText().strip()
         if not bitcoin.is_address(address):
-            self.show_message(_('Invalid Bitcoin address.'))
+            self.show_message(_('Invalid Cypherfunks address.'))
             return
         if self.wallet.is_watching_only():
             self.show_message(_('This is a watching-only wallet.'))
@@ -2956,7 +2956,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
         address  = address.text().strip()
         message = message.toPlainText().strip().encode('utf-8')
         if not bitcoin.is_address(address):
-            self.show_message(_('Invalid Bitcoin address.'))
+            self.show_message(_('Invalid Cypherfunks address.'))
             return
         try:
             # This can throw on invalid base64

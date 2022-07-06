@@ -762,7 +762,7 @@ class DeserializerEmercoin(DeserializerTxTimeSegWit):
         return self._read_nbytes(header_end)
 
 
-class DeserializerBitcoinAtom(DeserializerSegWit):
+class DeserializerCypherfunksAtom(DeserializerSegWit):
     FORK_BLOCK_HEIGHT = 505888
 
     def read_header(self, height, static_header_size):
@@ -994,7 +994,7 @@ class DeserializerSmartCash(Deserializer):
 
 
 @dataclass
-class TxBitcoinDiamond:
+class TxCypherfunksDiamond:
     '''Class representing a transaction.'''
     __slots__ = 'version', 'preblockhash', 'inputs', 'outputs', 'locktime'
     version: int
@@ -1004,7 +1004,7 @@ class TxBitcoinDiamond:
     locktime: int
 
 
-class DeserializerBitcoinDiamond(Deserializer):
+class DeserializerCypherfunksDiamond(Deserializer):
     bitcoin_diamond_tx_version = 12
 
     def read_tx(self):
@@ -1018,7 +1018,7 @@ class DeserializerBitcoinDiamond(Deserializer):
                 self._read_le_uint32()  # locktime
             )
         else:
-            return TxBitcoinDiamond(
+            return TxCypherfunksDiamond(
                 self._read_le_int32(),  # version
                 hash_to_hex_str(self._read_nbytes(32)),  # blockhash
                 self._read_inputs(),  # inputs
@@ -1032,7 +1032,7 @@ class DeserializerBitcoinDiamond(Deserializer):
 
 
 @dataclass
-class TxBitcoinDiamondSegWit:
+class TxCypherfunksDiamondSegWit:
     '''Class representing a SegWit transaction.'''
     __slots__ = ('version', 'preblockhash', 'marker', 'flag', 'inputs',
                  'outputs', 'witness', 'locktime')
@@ -1046,7 +1046,7 @@ class TxBitcoinDiamondSegWit:
     locktime: int
 
 
-class DeserializerBitcoinDiamondSegWit(DeserializerBitcoinDiamond,
+class DeserializerCypherfunksDiamondSegWit(DeserializerCypherfunksDiamond,
                                        DeserializerSegWit):
     def _read_tx_parts(self):
         '''Return a (deserialized TX, tx_hash, vsize) tuple.'''
@@ -1086,7 +1086,7 @@ class DeserializerBitcoinDiamondSegWit(DeserializerBitcoinDiamond,
         vsize = (3 * base_size + self.binary_length) // 4
 
         if present_block_hash is not None:
-            return TxBitcoinDiamondSegWit(
+            return TxCypherfunksDiamondSegWit(
                 version, present_block_hash, marker, flag, inputs, outputs,
                 witness, locktime), self.TX_HASH_FN(orig_ser), vsize
         else:

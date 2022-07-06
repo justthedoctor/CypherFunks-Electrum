@@ -301,10 +301,10 @@ Typically, a chunk consists of a fixed number of block headers over
 which difficulty is constant, and at the end of which difficulty is
 retargeted.
 
-In the case of Bitcoin a chunk is 2,016 headers, each of 80 bytes, so
+In the case of Cypherfunks a chunk is 2,016 headers, each of 80 bytes, so
 chunk 5 consists of the block headers from height 10,080 to 12,095
 inclusive.  When encoded as hexadecimal, the result string is twice as
-long, so for Bitcoin it takes 322,560 bytes, making this a
+long, so for Cypherfunks it takes 322,560 bytes, making this a
 bandwidth-intensive request.
 
 **Signature**

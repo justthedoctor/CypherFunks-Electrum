@@ -1,4 +1,4 @@
-# Electrum - lightweight Bitcoin client
+# Electrum - lightweight Cypherfunks client
 # Copyright (C) 2011 Thomas Voegtlin
 #
 # Permission is hereby granted, free of charge, to any person
@@ -176,7 +176,7 @@ class FileExportFailed(Exception):
 class WalletFileException(Exception): pass
 
 
-class BitcoinException(Exception): pass
+class CypherfunksException(Exception): pass
 
 
 class UserFacingException(Exception):
@@ -799,43 +799,7 @@ def time_difference(distance_in_time, include_seconds):
         return "over %d years" % (round(distance_in_minutes / 525600))
 
 mainnet_block_explorers = {
-    'Bitupper Explorer': ('https://bitupper.com/en/explorer/bitcoin/',
-                        {'tx': 'transactions/', 'addr': 'addresses/'}),
-    'Bitflyer.jp': ('https://chainflyer.bitflyer.jp/',
-                        {'tx': 'Transaction/', 'addr': 'Address/'}),
-    'Blockchain.info': ('https://blockchain.com/FUNK/',
-                        {'tx': 'tx/', 'addr': 'address/'}),
-    'blockchainbdgpzk.onion': ('https://blockchainbdgpzk.onion/',
-                        {'tx': 'tx/', 'addr': 'address/'}),
-    'Blockstream.info': ('https://blockstream.info/',
-                        {'tx': 'tx/', 'addr': 'address/'}),
-    'Bitaps.com': ('https://FUNK.bitaps.com/',
-                        {'tx': '', 'addr': ''}),
-    'FUNK.com': ('https://FUNK.com/',
-                        {'tx': '', 'addr': ''}),
-    'Chain.so': ('https://www.chain.so/',
-                        {'tx': 'tx/FUNK/', 'addr': 'address/FUNK/'}),
-    'Insight.is': ('https://insight.bitpay.com/',
-                        {'tx': 'tx/', 'addr': 'address/'}),
-    'TradeBlock.com': ('https://tradeblock.com/blockchain/',
-                        {'tx': 'tx/', 'addr': 'address/'}),
-    'BlockCypher.com': ('https://live.blockcypher.com/FUNK/',
-                        {'tx': 'tx/', 'addr': 'address/'}),
-    'Blockchair.com': ('https://blockchair.com/bitcoin/',
-                        {'tx': 'transaction/', 'addr': 'address/'}),
-    'blockonomics.co': ('https://www.blockonomics.co/',
-                        {'tx': 'api/tx?txid=', 'addr': '#/search?q='}),
-    'mempool.space': ('https://mempool.space/',
-                        {'tx': 'tx/', 'addr': 'address/'}),
-    'mempool.emzy.de': ('https://mempool.emzy.de/',
-                        {'tx': 'tx/', 'addr': 'address/'}),
-    'OXT.me': ('https://oxt.me/',
-                        {'tx': 'transaction/', 'addr': 'address/'}),
-    'smartbit.com.au': ('https://www.smartbit.com.au/',
-                        {'tx': 'tx/', 'addr': 'address/'}),
-    'mynode.local': ('http://mynode.local:3002/',
-                        {'tx': 'tx/', 'addr': 'address/'}),
-    'system default': ('blockchain:/',
+    'Cypherfunks Explorer': ('https://funk.cryptodepot.org/',
                         {'tx': 'tx/', 'addr': 'address/'}),
 }
 
@@ -934,27 +898,27 @@ BITCOIN_BIP21_URI_SCHEME = 'bitcoin'
 LIGHTNING_URI_SCHEME = 'lightning'
 
 
-class InvalidBitcoinURI(Exception): pass
+class InvalidCypherfunksURI(Exception): pass
 
 
 # TODO rename to parse_bip21_uri or similar
 def parse_URI(uri: str, on_pr: Callable = None, *, loop=None) -> dict:
-    """Raises InvalidBitcoinURI on malformed URI."""
+    """Raises InvalidCypherfunksURI on malformed URI."""
     from . import bitcoin
     from .bitcoin import COIN, TOTAL_COIN_SUPPLY_LIMIT_IN_FUNK
     from .lnaddr import lndecode
 
     if not isinstance(uri, str):
-        raise InvalidBitcoinURI(f"expected string, not {repr(uri)}")
+        raise InvalidCypherfunksURI(f"expected string, not {repr(uri)}")
 
     if ':' not in uri:
         if not bitcoin.is_address(uri):
-            raise InvalidBitcoinURI("Not a bitcoin address")
+            raise InvalidCypherfunksURI("Not a bitcoin address")
         return {'address': uri}
 
     u = urllib.parse.urlparse(uri)
     if u.scheme.lower() != BITCOIN_BIP21_URI_SCHEME:
-        raise InvalidBitcoinURI("Not a bitcoin URI")
+        raise InvalidCypherfunksURI("Not a bitcoin URI")
     address = u.path
 
     # python for android fails to parse query
@@ -966,12 +930,12 @@ def parse_URI(uri: str, on_pr: Callable = None, *, loop=None) -> dict:
 
     for k, v in pq.items():
         if len(v) != 1:
-            raise InvalidBitcoinURI(f'Duplicate Key: {repr(k)}')
+            raise InvalidCypherfunksURI(f'Duplicate Key: {repr(k)}')
 
     out = {k: v[0] for k, v in pq.items()}
     if address:
         if not bitcoin.is_address(address):
-            raise InvalidBitcoinURI(f"Invalid bitcoin address: {address}")
+            raise InvalidCypherfunksURI(f"Invalid bitcoin address: {address}")
         out['address'] = address
     if 'amount' in out:
         am = out['amount']
@@ -983,10 +947,10 @@ def parse_URI(uri: str, on_pr: Callable = None, *, loop=None) -> dict:
             else:
                 amount = Decimal(am) * COIN
             if amount > TOTAL_COIN_SUPPLY_LIMIT_IN_FUNK * COIN:
-                raise InvalidBitcoinURI(f"amount is out-of-bounds: {amount!r} FUNK")
+                raise InvalidCypherfunksURI(f"amount is out-of-bounds: {amount!r} FUNK")
             out['amount'] = int(amount)
         except Exception as e:
-            raise InvalidBitcoinURI(f"failed to parse 'amount' field: {repr(e)}") from e
+            raise InvalidCypherfunksURI(f"failed to parse 'amount' field: {repr(e)}") from e
     if 'message' in out:
         out['message'] = out['message']
         out['memo'] = out['message']
@@ -994,17 +958,17 @@ def parse_URI(uri: str, on_pr: Callable = None, *, loop=None) -> dict:
         try:
             out['time'] = int(out['time'])
         except Exception as e:
-            raise InvalidBitcoinURI(f"failed to parse 'time' field: {repr(e)}") from e
+            raise InvalidCypherfunksURI(f"failed to parse 'time' field: {repr(e)}") from e
     if 'exp' in out:
         try:
             out['exp'] = int(out['exp'])
         except Exception as e:
-            raise InvalidBitcoinURI(f"failed to parse 'exp' field: {repr(e)}") from e
+            raise InvalidCypherfunksURI(f"failed to parse 'exp' field: {repr(e)}") from e
     if 'sig' in out:
         try:
             out['sig'] = bh2u(bitcoin.base_decode(out['sig'], base=58))
         except Exception as e:
-            raise InvalidBitcoinURI(f"failed to parse 'sig' field: {repr(e)}") from e
+            raise InvalidCypherfunksURI(f"failed to parse 'sig' field: {repr(e)}") from e
     if 'lightning' in out:
         try:
             lnaddr = lndecode(out['lightning'])
@@ -1015,7 +979,7 @@ def parse_URI(uri: str, on_pr: Callable = None, *, loop=None) -> dict:
             if address:
                 assert lnaddr.get_fallback_address() == address
         except Exception as e:
-            raise InvalidBitcoinURI(f"Inconsistent lightning field: {repr(e)}") from e
+            raise InvalidCypherfunksURI(f"Inconsistent lightning field: {repr(e)}") from e
 
     r = out.get('r')
     sig = out.get('sig')

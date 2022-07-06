@@ -52,7 +52,7 @@ Return the block header at the given height.
 
 **Example Result**
 
-With *height* 5 and *cp_height* 0 on the Bitcoin Cash chain:
+With *height* 5 and *cp_height* 0 on the Cypherfunks Cash chain:
 
 ::
 
@@ -246,7 +246,7 @@ be accepted to the daemon's memory pool.
 
 **Result**
 
-  The fee in whole coin units (FUNK, not satoshis for Bitcoin) as a
+  The fee in whole coin units (FUNK, not satoshis for Cypherfunks) as a
   floating point number.
 
 **Example Results**

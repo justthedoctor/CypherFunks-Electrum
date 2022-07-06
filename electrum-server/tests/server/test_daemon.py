@@ -6,18 +6,18 @@ import logging
 import pytest
 
 from aiorpcx import JSONRPCv1, JSONRPCLoose, RPCError, ignore_after, Request
-from electrumx.lib.coins import BitcoinCash, CoinError, Bitzeny, Dash
+from electrumx.lib.coins import CypherfunksCash, CoinError, Bitzeny, Dash
 from electrumx.server.daemon import Daemon, FakeEstimateFeeDaemon
 
 
-coin = BitcoinCash
+coin = CypherfunksCash
 
 # These should be full, canonical URLs
 urls = ['http://rpc_user:rpc_pass@127.0.0.1:8332/',
         'http://rpc_user:rpc_pass@192.168.0.1:8332/']
 
 
-@pytest.fixture(params=[BitcoinCash, Bitzeny])
+@pytest.fixture(params=[CypherfunksCash, Bitzeny])
 def daemon(request):
     coin = request.param
     return coin.DAEMON(coin, ','.join(urls))

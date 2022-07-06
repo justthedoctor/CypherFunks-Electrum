@@ -24,7 +24,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 ENV SERVICES="tcp://:50001"
-ENV COIN=Bitcoin
+ENV COIN=Cypherfunks
 ENV DB_DIRECTORY=/var/lib/electrumx
 ENV DAEMON_URL="http://username:password@hostname:port/"
 ENV ALLOW_ROOT=true

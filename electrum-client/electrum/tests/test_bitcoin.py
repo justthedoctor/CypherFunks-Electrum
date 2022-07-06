@@ -8,7 +8,7 @@ from electrum.bitcoin import (public_key_to_p2pkh, address_from_private_key,
                               is_b58_address, address_to_scripthash, is_minikey,
                               is_compressed_privkey, EncodeBase58Check, DecodeBase58Check,
                               script_num_to_hex, push_script, add_number_to_script, int_to_hex,
-                              opcodes, base_encode, base_decode, BitcoinException)
+                              opcodes, base_encode, base_decode, CypherfunksException)
 from electrum import bip32
 from electrum import segwit_addr
 from electrum.segwit_addr import DecodedBech32
@@ -1135,12 +1135,12 @@ class Test_keyImport(ElectrumTestCase):
                              is_compressed_privkey(priv_details['priv']))
 
     def test_segwit_uncompressed_pubkey(self):
-        with self.assertRaises(BitcoinException):
+        with self.assertRaises(CypherfunksException):
             is_private_key("p2wpkh-p2sh:5JKXxT3wAZHcybJ9YNkuHur9vou6uuAnorBV9A8vVxGNFH5wvTW",
                            raise_on_error=True)
 
     def test_wif_with_invalid_magic_byte_for_compressed_pubkey(self):
-        with self.assertRaises(BitcoinException):
+        with self.assertRaises(CypherfunksException):
             is_private_key("KwFAa6AumokBD2dVqQLPou42jHiVsvThY1n25HJ8Ji8REf1wxAQb",
                            raise_on_error=True)
 

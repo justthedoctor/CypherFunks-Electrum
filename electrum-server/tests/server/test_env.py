@@ -17,7 +17,7 @@ BASE_DB_DIR = '/some/dir'
 base_environ = {
     'DB_DIRECTORY': BASE_DB_DIR,
     'DAEMON_URL': BASE_DAEMON_URL,
-    'COIN': 'BitcoinSV',
+    'COIN': 'CypherfunksSV',
 }
 
 
@@ -91,13 +91,13 @@ def test_COIN_NET():
     '''Test COIN and NET defaults and redirection.'''
     setup_base_env()
     e = Env()
-    assert e.coin == lib_coins.BitcoinSV
+    assert e.coin == lib_coins.CypherfunksSV
     os.environ['NET'] = 'testnet'
     e = Env()
-    assert e.coin == lib_coins.BitcoinSVTestnet
+    assert e.coin == lib_coins.CypherfunksSVTestnet
     os.environ['NET'] = ' testnet '
     e = Env()
-    assert e.coin == lib_coins.BitcoinSVTestnet
+    assert e.coin == lib_coins.CypherfunksSVTestnet
     os.environ.pop('NET')
     os.environ['COIN'] = ' Litecoin '
     e = Env()
@@ -106,15 +106,15 @@ def test_COIN_NET():
     e = Env()
     assert e.coin == lib_coins.LitecoinTestnet
     os.environ.pop('NET')
-    os.environ['COIN'] = ' BitcoinGold '
+    os.environ['COIN'] = ' CypherfunksGold '
     e = Env()
-    assert e.coin == lib_coins.BitcoinGold
+    assert e.coin == lib_coins.CypherfunksGold
     os.environ['NET'] = 'testnet'
     e = Env()
-    assert e.coin == lib_coins.BitcoinGoldTestnet
+    assert e.coin == lib_coins.CypherfunksGoldTestnet
     os.environ['NET'] = 'regtest'
     e = Env()
-    assert e.coin == lib_coins.BitcoinGoldRegtest
+    assert e.coin == lib_coins.CypherfunksGoldRegtest
     os.environ.pop('NET')
     os.environ['COIN'] = ' Decred '
     e = Env()
@@ -123,7 +123,7 @@ def test_COIN_NET():
     e = Env()
     assert e.coin == lib_coins.DecredTestnet
     os.environ.pop('NET')
-    os.environ['COIN'] = ' BitcoinGreen '
+    os.environ['COIN'] = ' CypherfunksGreen '
     e = Env()
     assert e.coin == lib_coins.Bitg
     os.environ['NET'] = 'mainnet'
@@ -273,7 +273,7 @@ def test_REPORT_SERVICES_localhost():
 
 def test_REORG_LIMIT():
     assert_integer('REORG_LIMIT', 'reorg_limit',
-                   lib_coins.BitcoinSV.REORG_LIMIT)
+                   lib_coins.CypherfunksSV.REORG_LIMIT)
 
 
 def test_COST_HARD_LIMIT():
@@ -413,8 +413,8 @@ def test_ban_versions():
 
 
 def test_coin_class_provided():
-    e = Env(lib_coins.BitcoinSV)
-    assert e.coin == lib_coins.BitcoinSV
+    e = Env(lib_coins.CypherfunksSV)
+    assert e.coin == lib_coins.CypherfunksSV
 
 
 def test_drop_unknown_clients():

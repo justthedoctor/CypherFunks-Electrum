@@ -1,4 +1,4 @@
-# Electrum - Lightweight Bitcoin client
+# Electrum - Lightweight Cypherfunks client
 
 ```
 Licence: MIT Licence

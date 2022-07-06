@@ -22,7 +22,7 @@ These environment variables are always required:
 .. envvar:: COIN
 
   Must be a :attr:`NAME` from one of the :class:`Coin` classes in
-  `lib/coins.py`_. For example, ``Bitcoin``.
+  `lib/coins.py`_. For example, ``Cypherfunks``.
 
 .. envvar:: DB_DIRECTORY
 
@@ -233,7 +233,7 @@ These environment variables are optional:
   + ``$DAEMON_VERSION`` is replaced with the daemon's version as a
     dot-separated string. For example ``0.12.1``.
   + ``$DAEMON_SUBVERSION`` is replaced with the daemon's user agent
-    string.  For example, ``/BitcoinUnlimited:0.12.1(EB16; AD4)/``.
+    string.  For example, ``/CypherfunksUnlimited:0.12.1(EB16; AD4)/``.
   + ``$DONATION_ADDRESS`` is replaced with the address from the
     :envvar:`DONATION_ADDRESS` environment variable.
 
@@ -264,7 +264,7 @@ These environment variables are optional:
   The maximum number of blocks to be able to handle in a chain
   reorganisation.  ElectrumX retains some fairly compact undo
   information for this many blocks in levelDB.  The default is a
-  function of :envvar:`COIN` and :envvar:`NET`; for Bitcoin mainnet it
+  function of :envvar:`COIN` and :envvar:`NET`; for Cypherfunks mainnet it
   is 200.
 
 .. envvar:: EVENT_LOOP_POLICY
@@ -310,7 +310,7 @@ raise them.
 .. envvar:: MAX_RECV
 
   The maximum size of an incoming message in bytes, the default is 1,000,000 bytes.
-  Note that the smallest sane/safe value for Bitcoin is ~800,100 bytes,
+  Note that the smallest sane/safe value for Cypherfunks is ~800,100 bytes,
   as the largest standard tx can have a weight of 400K but the protocol hex-encodes that,
   plus there is a few bytes of protocol overhead. Setting this to lower than that
   would preclude clients from broadcasting txs that could propagate over the network.
@@ -334,7 +334,7 @@ raise them.
   the largest raw transaction you will be able to serve to a client is
   just under half of :envvar:`MAX_SEND`, as each raw byte becomes 2
   hexadecimal ASCII characters on the wire.  Very few transactions on
-  Bitcoin mainnet are over 500KB in size.
+  Cypherfunks mainnet are over 500KB in size.
 
 .. envvar:: COST_SOFT_LIMIT
 .. envvar:: COST_HARD_LIMIT

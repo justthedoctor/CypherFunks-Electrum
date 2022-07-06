@@ -8,7 +8,7 @@ ElectrumX
     :target: https://coveralls.io/github/spesmilo/electrumx
 
 This project is a fork of `kyuupichan/electrumx <https://github.com/kyuupichan/electrumx>`_.
-The original author dropped support for Bitcoin, which we intend to keep.
+The original author dropped support for Cypherfunks, which we intend to keep.
 
 ElectrumX allows users to run their own Electrum server. It connects to your
 full node and indexes the blockchain, allowing efficient querying of history of

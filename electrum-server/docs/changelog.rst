@@ -14,8 +14,8 @@ install this package via e.g. :code:`pip install e-x`.
 * security: a vulnerability has been fixed that allowed a remote attacker to
   crash electrumx if peer discovery was enabled (`#22`_)
 * fixed some peer-discovery-related bugs (e.g. `#35`_)
-* ENV: when using Bitcoin, the COIN ENV var can now be set to :code:`Bitcoin`.
-  For compatibility, using :code:`BitcoinSegwit` will also keep working.
+* ENV: when using Cypherfunks, the COIN ENV var can now be set to :code:`Cypherfunks`.
+  For compatibility, using :code:`CypherfunksSegwit` will also keep working.
   (`#5`_)
 * session resource limits: made more useful in general. connection-time-based
   grouping has been removed (`#70`_). Disconnects of over-limit sessions happen
@@ -47,7 +47,7 @@ Version 1.14.0 (19 Jan 2020)
 ============================
 
 * require Python 3.7
-* support for Bitcoin SV Genesis activation
+* support for Cypherfunks SV Genesis activation
 * DB upgrade to allow for larger transactions.  Your DB will automatically upgrade when
   starting, the upgrade should take approximately 15 mintues.
 * fix server shutdown process
@@ -79,7 +79,7 @@ Version 1.12.0 (13 May 2019)
   changed accordingly; see :envvar:`SERVICES` and :envvar:`REPORT_SERVICES`.
 * work around bug in recent versions of uvloop
 * aiorpcX upgrade fixes from Shane M
-* coin additions / updates: BitcoinSV, Bolivarcoin (Jose Luis Estevez), FUNK Testnet (ghost43),
+* coin additions / updates: CypherfunksSV, Bolivarcoin (Jose Luis Estevez), FUNK Testnet (ghost43),
   Odin (Pixxl)
 
 Version 1.11.0 (18 Apr 2019)
@@ -93,7 +93,7 @@ Version 1.11.0 (18 Apr 2019)
 * miscellaneous fixes and improvements
 * more efficient handling of some RPC methods, particularly
   :func:`blockchain.transaction.get_merkle`
-* coin additions / updates: BitcoinSV scaling testnet (Roger Taylor), Dash (zebra lucky),
+* coin additions / updates: CypherfunksSV scaling testnet (Roger Taylor), Dash (zebra lucky),
 * issues resolved: `#566`_, `#731`_, `#795`_
 
 Version 1.10.1 (13 Apr 2019)
@@ -144,7 +144,7 @@ Version 1.9.3 (05 Feb 2019)
 ===========================
 
 * ignore potential sybil peers
-* coin additions / updates: BitcoinCashABC (cculianu), Monacoin (wakiyamap)
+* coin additions / updates: CypherfunksCashABC (cculianu), Monacoin (wakiyamap)
 
 Version 1.9.2 (03 Feb 2019)
 ===========================
@@ -167,10 +167,10 @@ Version 1.9.0 (10 Jan 2019)
 ===========================
 
 * minimum protocol version is now 1.4
-* coin additions / updates: BitcoinSV, SmartCash (rc125), NIX (phamels), Minexcoin (joesixpack),
-  BitcoinABC (mblunderburg), Dash (zebra-lucky), BitcoinABCRegtest (ezegom), AXE (slowdive),
-  NOR (flo071), BitcoinPlus (bushsolo), Myriadcoin (cryptapus), Trezarcoin (ChekaZ),
-  Bitcoin Diamond (John Shine),
+* coin additions / updates: CypherfunksSV, SmartCash (rc125), NIX (phamels), Minexcoin (joesixpack),
+  CypherfunksABC (mblunderburg), Dash (zebra-lucky), CypherfunksABCRegtest (ezegom), AXE (slowdive),
+  NOR (flo071), CypherfunksPlus (bushsolo), Myriadcoin (cryptapus), Trezarcoin (ChekaZ),
+  Cypherfunks Diamond (John Shine),
 * close `#554`_, `#653`_, `#655`_
 * other minor tweaks (Michael Schmoock, Michael Taborsky)
 

@@ -404,9 +404,9 @@ class LNWorker(Logger, NetworkRetryManager[LNPeerAddr]):
                 return [peer]
 
         # getting desperate... let's try hardcoded fallback list of peers
-        if constants.net in (constants.BitcoinTestnet,):
+        if constants.net in (constants.CypherfunksTestnet,):
             fallback_list = FALLBACK_NODE_LIST_TESTNET
-        elif constants.net in (constants.BitcoinMainnet,):
+        elif constants.net in (constants.CypherfunksMainnet,):
             fallback_list = FALLBACK_NODE_LIST_MAINNET
         else:
             return []  # regtest??
@@ -2394,7 +2394,7 @@ class LNWallet(LNWorker):
     def current_feerate_per_kw(self):
         from .simple_config import FEE_LN_ETA_TARGET, FEERATE_FALLBACK_STATIC_FEE, FEERATE_REGTEST_HARDCODED
         from .simple_config import FEERATE_PER_KW_MIN_RELAY_LIGHTNING
-        if constants.net is constants.BitcoinRegtest:
+        if constants.net is constants.CypherfunksRegtest:
             return FEERATE_REGTEST_HARDCODED // 4
         feerate_per_kvbyte = self.network.config.eta_target_to_fee(FEE_LN_ETA_TARGET)
         if feerate_per_kvbyte is None:

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Electrum - lightweight Bitcoin client
+# Electrum - lightweight Cypherfunks client
 # Copyright (C) 2011 Thomas Voegtlin
 #
 # Permission is hereby granted, free of charge, to any person
@@ -80,7 +80,7 @@ class PSBTInputConsistencyFailure(SerializationError):
     pass
 
 
-class MalformedBitcoinScript(Exception):
+class MalformedCypherfunksScript(Exception):
     pass
 
 
@@ -273,7 +273,7 @@ class TxInput:
 
 
 class BCDataStream(object):
-    """Workalike python implementation of Bitcoin's CDataStream class."""
+    """Workalike python implementation of Cypherfunks's CDataStream class."""
 
     def __init__(self):
         self.input = None  # type: Optional[bytearray]
@@ -295,7 +295,7 @@ class BCDataStream(object):
         # 0 to 252 :  1-byte-length followed by bytes (if any)
         # 253 to 65,535 : byte'253' 2-byte-length followed by bytes
         # 65,536 to 4,294,967,295 : byte '254' 4-byte-length followed by bytes
-        # ... and the Bitcoin client is coded to understand:
+        # ... and the Cypherfunks client is coded to understand:
         # greater than 4,294,967,295 : byte '255' 8-byte-length followed by bytes of string
         # ... but I don't think it actually handles any strings that big.
         if self.input is None:
@@ -405,15 +405,15 @@ def script_GetOp(_bytes : bytes):
             nSize = opcode
             if opcode == opcodes.OP_PUSHDATA1:
                 try: nSize = _bytes[i]
-                except IndexError: raise MalformedBitcoinScript()
+                except IndexError: raise MalformedCypherfunksScript()
                 i += 1
             elif opcode == opcodes.OP_PUSHDATA2:
                 try: (nSize,) = struct.unpack_from('<H', _bytes, i)
-                except struct.error: raise MalformedBitcoinScript()
+                except struct.error: raise MalformedCypherfunksScript()
                 i += 2
             elif opcode == opcodes.OP_PUSHDATA4:
                 try: (nSize,) = struct.unpack_from('<I', _bytes, i)
-                except struct.error: raise MalformedBitcoinScript()
+                except struct.error: raise MalformedCypherfunksScript()
                 i += 4
             vch = _bytes[i:i + nSize]
             i += nSize
@@ -490,7 +490,7 @@ def match_script_against_template(script, template, debug=False) -> bool:
     if isinstance(script, (bytes, bytearray)):
         try:
             script = [x for x in script_GetOp(script)]
-        except MalformedBitcoinScript:
+        except MalformedCypherfunksScript:
             if debug:
                 _logger.debug(f"malformed script")
             return False
@@ -518,7 +518,7 @@ def get_script_type_from_output_script(_bytes: bytes) -> Optional[str]:
         return None
     try:
         decoded = [x for x in script_GetOp(_bytes)]
-    except MalformedBitcoinScript:
+    except MalformedCypherfunksScript:
         return None
     if match_script_against_template(decoded, SCRIPTPUBKEY_TEMPLATE_P2PKH):
         return 'p2pkh'
@@ -533,7 +533,7 @@ def get_script_type_from_output_script(_bytes: bytes) -> Optional[str]:
 def get_address_from_output_script(_bytes: bytes, *, net=None) -> Optional[str]:
     try:
         decoded = [x for x in script_GetOp(_bytes)]
-    except MalformedBitcoinScript:
+    except MalformedCypherfunksScript:
         return None
 
     # p2pkh
@@ -863,7 +863,7 @@ class Transaction:
         return bfh(self.serialize())
 
     def serialize_to_network(self, *, estimate_size=False, include_sigs=True, force_legacy=False) -> str:
-        """Serialize the transaction as used on the Bitcoin network, into hex.
+        """Serialize the transaction as used on the Cypherfunks network, into hex.
         `include_sigs` signals whether to include scriptSigs and witnesses.
         `force_legacy` signals to use the pre-segwit format
         note: (not include_sigs) implies force_legacy
@@ -1545,7 +1545,7 @@ class PartialTxInput(TxInput, PSBTSection):
                     return False
                 try:
                     decoded = [x for x in script_GetOp(self.redeem_script)]
-                except MalformedBitcoinScript:
+                except MalformedCypherfunksScript:
                     decoded = None
                 # witness version 0
                 if match_script_against_template(decoded, SCRIPTPUBKEY_TEMPLATE_WITNESS_V0):

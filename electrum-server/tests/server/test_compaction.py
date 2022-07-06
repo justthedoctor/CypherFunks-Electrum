@@ -119,7 +119,7 @@ async def test_compaction(tmpdir):
     environ.clear()
     environ['DB_DIRECTORY'] = db_dir
     environ['DAEMON_URL'] = ''
-    environ['COIN'] = 'BitcoinSV'
+    environ['COIN'] = 'CypherfunksSV'
     db = DB(Env())
     await db.open_for_serving()
     history = db.history

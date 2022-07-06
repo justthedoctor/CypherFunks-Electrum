@@ -172,7 +172,7 @@
     "Bitbank": [
         "JPY"
     ],
-    "BitcoinAverage": [
+    "CypherfunksAverage": [
         "AED",
         "AFN",
         "ALL",
@@ -341,7 +341,7 @@
         "ZMW",
         "ZWL"
     ],
-    "BitcoinVenezuela": [
+    "CypherfunksVenezuela": [
         "ARS",
         "ETH",
         "EUR",
@@ -350,7 +350,7 @@
         "VEF",
         "XMR"
     ],
-    "Bitcointoyou": [
+    "Cypherfunkstoyou": [
         "BRL"
     ],
     "Bitso": [
@@ -803,7 +803,7 @@
         "JPY",
         "USD"
     ],
-    "LocalBitcoins": [
+    "LocalCypherfunkss": [
         "AED",
         "ARS",
         "AUD",
@@ -882,7 +882,7 @@
         "XRP",
         "ZAR"
     ],
-    "MercadoBitcoin": [
+    "MercadoCypherfunks": [
         "BRL"
     ],
     "TheRockTrading": [
